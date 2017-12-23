@@ -30,7 +30,7 @@ namespace Visualisation_2017
                     Gl.glFlush();
                 }
             }
-            mesh.glDraw();
+            mesh.RenderWireFrame();
         }
     }
 }

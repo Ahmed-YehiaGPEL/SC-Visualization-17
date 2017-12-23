@@ -323,10 +323,10 @@ namespace OpenGlHostControl
             switch (renderMode)
             {
                 case RenderMode.Filled:
-                    mesh.glDrawFilled();
+                    mesh.RenderShape();
                     break;
                 case RenderMode.WireFrame:
-                    mesh.glDraw();
+                    mesh.RenderWireFrame();
                     break;
             }
             Gl.glFlush();

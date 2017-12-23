@@ -106,31 +106,39 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FormattedStream.cs">
+    <Compile Include="DataStructures\Node.cs" />
+    <Compile Include="Parser\FormattedStream.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LinkedList.cs">
+    <Compile Include="DataStructures\LinkedList.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Mathf.cs">
+    <Compile Include="Math\Mathf.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Matrix.cs">
+    <Compile Include="Math\Matrix.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Point3.cs">
+    <Compile Include="Mesh\Edge.cs" />
+    <Compile Include="Mesh\Element.cs" />
+    <Compile Include="Mesh\Face.cs" />
+    <Compile Include="Mesh\Mesh.cs" />
+    <Compile Include="Mesh\Vertex.cs" />
+    <Compile Include="Mesh\Zone.cs" />
+    <Compile Include="Parser\TokenType.cs" />
+    <Compile Include="Math\Point3.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Scanner.cs">
+    <Compile Include="Parser\Scanner.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Vector3.cs">
+    <Compile Include="Math\Vector3.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="_Mesh.cs">
+    <Compile Include="Mesh\ElementType.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="_Parser.cs">
+    <Compile Include="Parser\Parser.cs">
       <SubType>Code</SubType>
     </Compile>
     <Content Include="App.ico" />
@@ -138,9 +146,7 @@
   <ItemGroup>
     <None Include="Data Structure Class Diagram.cd" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\Debug\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

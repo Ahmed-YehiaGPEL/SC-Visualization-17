@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 
 namespace ColorUtilityPackage
@@ -64,7 +63,6 @@ namespace ColorUtilityPackage
         {
             if (max < min)
             {
-                Debug.WriteLine($@"Returned default color for values Max: {max} , Min: {min}");
                 return DefaultColor;
             }
             double delta = CalculateDelta(min, max);
@@ -80,7 +78,6 @@ namespace ColorUtilityPackage
             Color finalResult = DefaultColor;
             if (max < min)
             {
-                Debug.WriteLine($@"Returned default color for values Max: {max} , Min: {min}");
                 return finalResult;
             }
             double delta = CalculateDelta(min, max);
@@ -97,8 +94,6 @@ namespace ColorUtilityPackage
             Color secondCandidate = ColorSet[secondIndex];
 
             finalResult = Lerp(firstCandidate, secondCandidate, colorRatio);
-
-            Debug.WriteLine($@"Final Result {finalResult}");
 
             return finalResult;
         }

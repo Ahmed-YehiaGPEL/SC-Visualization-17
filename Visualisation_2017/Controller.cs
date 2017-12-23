@@ -17,8 +17,6 @@ namespace Visualisation_2017
         {
             InitializeComponent();
             InitializeDefaults();
-            
-
         }
 
         private void InitializeDefaults()
@@ -42,6 +40,7 @@ namespace Visualisation_2017
             openGlHostPanel1.LoadMesh(meshFilePath);
             LoadMeshData();
             openGlHostPanel1.SetPanel(this.colorModePanel1);
+            meshInfoTextBox.Text = $@"Vertices: {openGlHostPanel1.LoadedMesh.VerticesCount}";
             this.Text = $@"Controller - {fileDialog.SafeFileName}";
             this.Refresh();
             timer1.Enabled = checkBox1.Checked;

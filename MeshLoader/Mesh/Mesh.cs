@@ -25,7 +25,9 @@ namespace Visualization
         public bool HasTitle;
         public string Title;
         public int DataIndex => dataIndex;
-        
+        public long VerticesCount => verticesCount;
+
+        private long verticesCount;
         private Matrix originalTransformation;
         private List<double> minimumBounds;
         private List<double> maximumBounds;
@@ -158,6 +160,7 @@ namespace Visualization
                 if (candidateMax.x > max.x) max.x = candidateMax.x;
                 if (candidateMax.y > max.y) max.y = candidateMax.y;
                 if (candidateMax.z > max.z) max.z = candidateMax.z;
+                verticesCount += zone.VertexCount;
             }
             Transformation.Translate(-min.x, -min.y, -min.z);
 

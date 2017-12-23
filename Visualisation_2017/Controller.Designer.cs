@@ -32,7 +32,7 @@
             this.fileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.meshInfoTextBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.resetTransformationsBtn = new System.Windows.Forms.Button();
@@ -98,7 +98,7 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.textBox1);
+            this.groupBox6.Controls.Add(this.meshInfoTextBox);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Bold);
             this.groupBox6.Location = new System.Drawing.Point(3, 565);
@@ -108,18 +108,18 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Mesh Info";
             // 
-            // textBox1
+            // meshInfoTextBox
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(3, 21);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(269, 73);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "Vertices: 203";
+            this.meshInfoTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.meshInfoTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.meshInfoTextBox.Location = new System.Drawing.Point(3, 21);
+            this.meshInfoTextBox.Multiline = true;
+            this.meshInfoTextBox.Name = "meshInfoTextBox";
+            this.meshInfoTextBox.ReadOnly = true;
+            this.meshInfoTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.meshInfoTextBox.Size = new System.Drawing.Size(269, 73);
+            this.meshInfoTextBox.TabIndex = 0;
+            this.meshInfoTextBox.Text = "Vertices: 203";
             // 
             // tabControl1
             // 
@@ -507,7 +507,7 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox meshInfoTextBox;
         private System.Windows.Forms.Button resetTransformationsBtn;
         private System.Windows.Forms.GroupBox groupBox5;
         private ColorModePanelControl.ColorModePanel colorModePanel1;

@@ -1,3 +1,5 @@
+using Visualization.Mathf;
+
 namespace Visualization
 {
     public class Vertex

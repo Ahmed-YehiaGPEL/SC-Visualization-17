@@ -4,6 +4,7 @@ using ColorModePanelControl;
 using OpenGlHostControl;
 using Visualization;
 using ColorUtilityPackage;
+using Visualization.Mathf;
 
 namespace Visualisation_2017
 {

@@ -1,6 +1,8 @@
 using System.Drawing;
+using System.Linq;
 using ColorUtilityPackage;
 using Tao.OpenGl;
+using Visualization.Mathf;
 
 namespace Visualization
 {
@@ -119,10 +121,12 @@ namespace Visualization
                     Gl.glBegin(Gl.GL_TRIANGLES);
                     foreach (Face f in Faces)
                     {
-                        double averageValue = Average(Vertices[f.Vertices[0]].Data[index],
+                        double averageValue = new[]
+                        {
+                            Vertices[f.Vertices[0]].Data[index],
                             Vertices[f.Vertices[1]].Data[index],
-                            Vertices[f.Vertices[2]].Data[index]);
-
+                            Vertices[f.Vertices[2]].Data[index]
+                        }.Average();
                         Color faceColor = ColorUtility.CalculateColor(averageValue, minData, maxData);
 
                         Gl.glColor3d(faceColor.R / 255.0, faceColor.G / 255.0, faceColor.B / 255.0);
@@ -140,11 +144,13 @@ namespace Visualization
                     Gl.glBegin(Gl.GL_QUADS);
                     foreach (Face f in Faces)
                     {
-
-                        double averageValue = Average(Vertices[f.Vertices[0]].Data[index],
+                        double averageValue = new[] 
+                        {
+                            Vertices[f.Vertices[0]].Data[index],
                             Vertices[f.Vertices[1]].Data[index],
                             Vertices[f.Vertices[2]].Data[index],
-                            Vertices[f.Vertices[3]].Data[index]);
+                            Vertices[f.Vertices[3]].Data[index]
+                        }.Average();
 
                         Color faceColor = ColorUtility.CalculateColor(averageValue, minData, maxData);
 
@@ -164,17 +170,6 @@ namespace Visualization
         {
             Vertices[Edges[index].Start].Position.glTell();
             Vertices[Edges[index].End].Position.glTell();
-        }
-
-        private double Average(params double[] par)
-        {
-            double sum = 0;
-            for (int index = 0; index < par.Length; index++)
-            {
-                sum += par[index];
-            }
-            sum /= par.Length;
-            return sum;
         }
     }
 }

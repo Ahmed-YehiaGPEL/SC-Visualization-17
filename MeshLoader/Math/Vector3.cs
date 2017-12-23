@@ -1,6 +1,6 @@
 using System;
 
-namespace Visualization
+namespace Visualization.Mathf
 {
 	/// <summary>
 	/// Summary description for Vector3.

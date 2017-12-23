@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Linq;
 using ColorUtilityPackage;
 using Tao.OpenGl;
 
@@ -86,8 +87,11 @@ namespace Visualization
             Gl.glBegin(Gl.GL_LINES);
             foreach (uint edge in Edges)
             {
-                double value = Average(owner.Vertices[owner.Edges[edge].Start].Data[index],
-                    owner.Vertices[owner.Edges[edge].End].Data[index]);
+                double value = new[]
+                {
+                    owner.Vertices[owner.Edges[edge].Start].Data[index],
+                    owner.Vertices[owner.Edges[edge].End].Data[index]
+                }.Average();
 
                 Color color = ColorUtility.CalculateColor(value, min, max);
 
@@ -97,17 +101,5 @@ namespace Visualization
             }
             Gl.glEnd();
         }
-
-        private double Average(params double[] par)
-        {
-            double sum = 0;
-            for (int index = 0; index < par.Length; index++)
-            {
-                sum += par[index];
-            }
-            sum /= par.Length;
-            return sum;
-        }
-
     }
 }

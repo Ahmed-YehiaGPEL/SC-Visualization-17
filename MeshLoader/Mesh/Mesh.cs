@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Tao.OpenGl;
 using Visualization.DataStructures;
+using Visualization.Mathf;
 
 namespace Visualization
 {

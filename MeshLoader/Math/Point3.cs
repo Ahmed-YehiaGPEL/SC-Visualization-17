@@ -1,6 +1,6 @@
 using Tao.OpenGl;
 
-namespace Visualization
+namespace Visualization.Mathf
 {
 	public class Point3
 	{

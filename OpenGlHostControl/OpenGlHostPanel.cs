@@ -6,6 +6,7 @@ using Tao.OpenGl;
 using Visualization;
 using ColorModePanelControl;
 using ColorUtilityPackage;
+using Visualization.Mathf;
 
 namespace OpenGlHostControl
 {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using ColorModePanelControl;
 using OpenGlHostControl;
-using Visualization;
 using ColorUtilityPackage;
 using Visualization.MathUtil;
 
@@ -17,7 +15,6 @@ namespace Visualisation_2017
         {
             InitializeComponent();
             InitializeDefaults();
-            openGlHostPanel1.SetPanel(colorModePanel1);        
         }
 
         private void InitializeDefaults()
@@ -25,6 +22,8 @@ namespace Visualisation_2017
             rotationAxisComboBox.SelectedIndex = 0;
             renderModeComboBox.SelectedIndex = 0;
             contourStyleComboBox.SelectedIndex = 0;
+
+            glHostPanel.SetPanel(colorModePanel1);        
         }
 
         private void OpenFileButton1Click(object sender, EventArgs e)
@@ -37,21 +36,21 @@ namespace Visualisation_2017
             }
         }
 
-        private void fielLoadBtn_Click(object sender, EventArgs e)
+        private void FileLoadBtnClick(object sender, EventArgs e)
         {
-            openGlHostPanel1.LoadMesh(meshFilePath);
+            glHostPanel.LoadMesh(meshFilePath);
             LoadMeshData();
             toggleModelBodyRenderCheckbox.Checked = true;
-            meshInfoTextBox.Text = $"\nVertices: {openGlHostPanel1.LoadedMesh.VerticesCount}";
+            meshInfoTextBox.Text = $"\nVertices: {glHostPanel.LoadedMesh.VerticesCount}";
             this.Text = $@"Controller - {fileDialog.SafeFileName}";
             this.Refresh();
-            timer1.Enabled = checkBox1.Checked;
+            animationTimer.Enabled = checkBox1.Checked;
         }
 
         private void LoadMeshData()
         {
             meshDataListBox.Items.Clear();
-            foreach (string meshData in openGlHostPanel1.MeshData.Keys)
+            foreach (string meshData in glHostPanel.MeshData.Keys)
             {
                 meshDataListBox.Items.Add(meshData);
             }
@@ -60,7 +59,7 @@ namespace Visualisation_2017
 
         private void HandleMeshDataSelected(object sender, EventArgs e)
         {
-            openGlHostPanel1.ActivateDataIndex(meshDataListBox.SelectedIndex);
+            glHostPanel.ActivateDataIndex(meshDataListBox.SelectedIndex);
         }
 
         private void Controller_Load(object sender, EventArgs e)
@@ -68,72 +67,72 @@ namespace Visualisation_2017
 
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        private void TranslationFactorNumericValueChanged(object sender, EventArgs e)
         {
-            openGlHostPanel1.TranslationFactor = (int)numericUpDown1.Value;
+            glHostPanel.TranslationFactor = (int)numericUpDown1.Value;
         }
 
-        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        private void ScaleFactorNumbericValueChanged(object sender, EventArgs e)
         {
-            openGlHostPanel1.ScaleFactor = (int) numericUpDown2.Value;
+            glHostPanel.ScaleFactor = (int) numericUpDown2.Value;
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void RotationAxisComboBoxSelectedIndexChanged(object sender, EventArgs e)
         {
-            openGlHostPanel1.SetRotationAxis((Axis)rotationAxisComboBox.SelectedIndex);
+            glHostPanel.SetRotationAxis((Axis)rotationAxisComboBox.SelectedIndex);
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void AnimationTimerTick(object sender, EventArgs e)
         {
-            openGlHostPanel1.Rotate(Point3.One);
-            openGlHostPanel1.Refresh();
+            glHostPanel.Rotate(Point3.One);
+            glHostPanel.Refresh();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void ToggleAnimationCheckBoxCheckedChanged(object sender, EventArgs e)
         {
-            timer1.Enabled = checkBox1.Checked;
+            animationTimer.Enabled = checkBox1.Checked;
         }
 
-        private void resetTransformationsBtn_Click(object sender, EventArgs e)
+        private void ResetTransformationsBtnClick(object sender, EventArgs e)
         {
-            openGlHostPanel1.ResetTransform();
-            openGlHostPanel1.Refresh();
+            glHostPanel.ResetTransform();
+            glHostPanel.Refresh();
         }
 
-        private void renderModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void RenderModeComboBoxSelectedIndexChanged(object sender, EventArgs e)
         {
             RenderMode renderMode = (RenderMode) renderModeComboBox.SelectedIndex;
-            openGlHostPanel1.SetRenderMode(renderMode);
+            glHostPanel.SetRenderMode(renderMode);
         }
 
-        private void colorModePanel1_OnColorFunctionChanged(ColouringFunction colouringFunction)
+        private void ColorModePanel1_OnColorFunctionChanged(ColouringFunction colouringFunction)
         {
-            openGlHostPanel1.SetColouringFunction(colouringFunction);
+            glHostPanel.SetColouringFunction(colouringFunction);
         }
 
         private void CalculateIsoSurfacesButtonClick(object sender, EventArgs e)
         {
             int isoSurfacesCount = (int)isoSurfacesCountNumbericUpDown.Value;
-            openGlHostPanel1.RenderMeshIsoSurfaces(isoSurfacesCount);
+            glHostPanel.RenderMeshIsoSurfaces(isoSurfacesCount);
             toggleIsoSurfacesRenderCheckbox.Checked = true;
         }
 
-        private void toggleIsoSurfacesRenderCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void ToggleIsoSurfacesRenderCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            openGlHostPanel1.RenderIsoSurfaces = toggleIsoSurfacesRenderCheckbox.Checked;
+            glHostPanel.RenderIsoSurfaces = toggleIsoSurfacesRenderCheckbox.Checked;
         }
 
-        private void calculateLineContoursButton_Click(object sender, EventArgs e)
+        private void CalculateLineContoursButton_Click(object sender, EventArgs e)
         {
             int  lineContoursCount = (int)lineContoursCountNumberic.Value;
-            openGlHostPanel1.RenderMeshLineContours(lineContoursCount);
+            glHostPanel.RenderMeshLineContours(lineContoursCount);
             toggleLineContoursCheckBox.Checked = true;
         }
 
-        private void toggleModelBodyRenderCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void ToggleModelBodyRenderCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            openGlHostPanel1.LoadedMesh.Hidden = !toggleModelBodyRenderCheckbox.Checked;
-            openGlHostPanel1.Refresh();
+            glHostPanel.LoadedMesh.Hidden = !toggleModelBodyRenderCheckbox.Checked;
+            glHostPanel.Refresh();
         }
     }
     

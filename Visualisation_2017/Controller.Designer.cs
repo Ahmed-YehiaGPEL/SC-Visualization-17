@@ -71,8 +71,8 @@
             this.toggleLineContoursCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.openGlHostPanel1 = new OpenGlHostControl.OpenGlHostPanel();
+            this.animationTimer = new System.Windows.Forms.Timer(this.components);
+            this.glHostPanel = new OpenGlHostControl.OpenGlHostPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -173,7 +173,7 @@
             this.resetTransformationsBtn.TabIndex = 4;
             this.resetTransformationsBtn.Text = "Reset";
             this.resetTransformationsBtn.UseVisualStyleBackColor = true;
-            this.resetTransformationsBtn.Click += new System.EventHandler(this.resetTransformationsBtn_Click);
+            this.resetTransformationsBtn.Click += new System.EventHandler(this.ResetTransformationsBtnClick);
             // 
             // groupBox2
             // 
@@ -200,7 +200,7 @@
             this.checkBox1.TabIndex = 3;
             this.checkBox1.Text = "Animate";
             this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.ToggleAnimationCheckBoxCheckedChanged);
             // 
             // numericUpDown2
             // 
@@ -223,7 +223,7 @@
             0,
             0,
             0});
-            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+            this.numericUpDown2.ValueChanged += new System.EventHandler(this.ScaleFactorNumbericValueChanged);
             // 
             // numericUpDown1
             // 
@@ -246,7 +246,7 @@
             0,
             0,
             0});
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.TranslationFactorNumericValueChanged);
             // 
             // label3
             // 
@@ -287,7 +287,7 @@
             this.rotationAxisComboBox.Name = "rotationAxisComboBox";
             this.rotationAxisComboBox.Size = new System.Drawing.Size(120, 24);
             this.rotationAxisComboBox.TabIndex = 0;
-            this.rotationAxisComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.rotationAxisComboBox.SelectedIndexChanged += new System.EventHandler(this.RotationAxisComboBoxSelectedIndexChanged);
             // 
             // groupBox1
             // 
@@ -319,7 +319,7 @@
             this.fileLoadBtn.TabIndex = 0;
             this.fileLoadBtn.Text = "Load";
             this.fileLoadBtn.UseVisualStyleBackColor = true;
-            this.fileLoadBtn.Click += new System.EventHandler(this.fielLoadBtn_Click);
+            this.fileLoadBtn.Click += new System.EventHandler(this.FileLoadBtnClick);
             // 
             // openFileButton
             // 
@@ -397,7 +397,7 @@
             this.renderModeComboBox.Name = "renderModeComboBox";
             this.renderModeComboBox.Size = new System.Drawing.Size(249, 24);
             this.renderModeComboBox.TabIndex = 0;
-            this.renderModeComboBox.SelectedIndexChanged += new System.EventHandler(this.renderModeComboBox_SelectedIndexChanged);
+            this.renderModeComboBox.SelectedIndexChanged += new System.EventHandler(this.RenderModeComboBoxSelectedIndexChanged);
             // 
             // colorModePanel1
             // 
@@ -407,7 +407,7 @@
             this.colorModePanel1.Name = "colorModePanel1";
             this.colorModePanel1.Size = new System.Drawing.Size(252, 137);
             this.colorModePanel1.TabIndex = 2;
-            this.colorModePanel1.OnColorFunctionChanged += new ColorModePanelControl.ColorModePanel.OnColorFunctionChangedDelegate(this.colorModePanel1_OnColorFunctionChanged);
+            this.colorModePanel1.OnColorFunctionChanged += new ColorModePanelControl.ColorModePanel.OnColorFunctionChangedDelegate(this.ColorModePanel1_OnColorFunctionChanged);
             // 
             // toggleModelBodyRenderCheckbox
             // 
@@ -420,7 +420,7 @@
             this.toggleModelBodyRenderCheckbox.Text = "Render Body";
             this.toggleModelBodyRenderCheckbox.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.toggleModelBodyRenderCheckbox.UseVisualStyleBackColor = true;
-            this.toggleModelBodyRenderCheckbox.CheckedChanged += new System.EventHandler(this.toggleModelBodyRenderCheckbox_CheckedChanged);
+            this.toggleModelBodyRenderCheckbox.CheckedChanged += new System.EventHandler(this.ToggleModelBodyRenderCheckbox_CheckedChanged);
             // 
             // tabPage3
             // 
@@ -493,7 +493,7 @@
             this.toggleIsoSurfacesRenderCheckbox.TabIndex = 3;
             this.toggleIsoSurfacesRenderCheckbox.Text = "Render Surface";
             this.toggleIsoSurfacesRenderCheckbox.UseVisualStyleBackColor = true;
-            this.toggleIsoSurfacesRenderCheckbox.CheckedChanged += new System.EventHandler(this.toggleIsoSurfacesRenderCheckbox_CheckedChanged);
+            this.toggleIsoSurfacesRenderCheckbox.CheckedChanged += new System.EventHandler(this.ToggleIsoSurfacesRenderCheckbox_CheckedChanged);
             // 
             // groupBox9
             // 
@@ -519,7 +519,7 @@
             this.calculateLineContoursButton.TabIndex = 7;
             this.calculateLineContoursButton.Text = "Calculate";
             this.calculateLineContoursButton.UseVisualStyleBackColor = true;
-            this.calculateLineContoursButton.Click += new System.EventHandler(this.calculateLineContoursButton_Click);
+            this.calculateLineContoursButton.Click += new System.EventHandler(this.CalculateLineContoursButton_Click);
             // 
             // lineContoursCountNumberic
             // 
@@ -605,29 +605,29 @@
             this.textBox2.Text = "Move: Up | Down | Right | Left Arrows\r\n\r\nZoom In/Out: Page Down / Page Up\r\n\r\nScal" +
     "e On X +/- : X / C\r\nScale On Y +/-: Y / H\r\n\r\nRotate on Selected Axis: R";
             // 
-            // timer1
+            // animationTimer
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.animationTimer.Tick += new System.EventHandler(this.AnimationTimerTick);
             // 
-            // openGlHostPanel1
+            // glHostPanel
             // 
-            this.openGlHostPanel1.AccumBits = ((byte)(0));
-            this.openGlHostPanel1.AutoCheckErrors = false;
-            this.openGlHostPanel1.AutoFinish = false;
-            this.openGlHostPanel1.AutoMakeCurrent = true;
-            this.openGlHostPanel1.AutoSwapBuffers = true;
-            this.openGlHostPanel1.BackColor = System.Drawing.Color.Black;
-            this.openGlHostPanel1.ColorBits = ((byte)(32));
-            this.openGlHostPanel1.DepthBits = ((byte)(16));
-            this.openGlHostPanel1.HookRenderOnPaintEvent = true;
-            this.openGlHostPanel1.Location = new System.Drawing.Point(9, 12);
-            this.openGlHostPanel1.Name = "openGlHostPanel1";
-            this.openGlHostPanel1.RenderIsoSurfaces = false;
-            this.openGlHostPanel1.ScaleFactor = 1D;
-            this.openGlHostPanel1.Size = new System.Drawing.Size(633, 641);
-            this.openGlHostPanel1.StencilBits = ((byte)(0));
-            this.openGlHostPanel1.TabIndex = 2;
-            this.openGlHostPanel1.TranslationFactor = 1D;
+            this.glHostPanel.AccumBits = ((byte)(0));
+            this.glHostPanel.AutoCheckErrors = false;
+            this.glHostPanel.AutoFinish = false;
+            this.glHostPanel.AutoMakeCurrent = true;
+            this.glHostPanel.AutoSwapBuffers = true;
+            this.glHostPanel.BackColor = System.Drawing.Color.Black;
+            this.glHostPanel.ColorBits = ((byte)(32));
+            this.glHostPanel.DepthBits = ((byte)(16));
+            this.glHostPanel.HookRenderOnPaintEvent = true;
+            this.glHostPanel.Location = new System.Drawing.Point(9, 12);
+            this.glHostPanel.Name = "glHostPanel";
+            this.glHostPanel.RenderIsoSurfaces = false;
+            this.glHostPanel.ScaleFactor = 1D;
+            this.glHostPanel.Size = new System.Drawing.Size(633, 641);
+            this.glHostPanel.StencilBits = ((byte)(0));
+            this.glHostPanel.TabIndex = 2;
+            this.glHostPanel.TranslationFactor = 1D;
             // 
             // Controller
             // 
@@ -635,7 +635,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(929, 665);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.openGlHostPanel1);
+            this.Controls.Add(this.glHostPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.Name = "Controller";
@@ -672,7 +672,7 @@
 
         #endregion
         private System.Windows.Forms.OpenFileDialog fileDialog;
-        private OpenGlHostControl.OpenGlHostPanel openGlHostPanel1;
+        private OpenGlHostControl.OpenGlHostPanel glHostPanel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
@@ -691,7 +691,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer animationTimer;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.GroupBox groupBox6;

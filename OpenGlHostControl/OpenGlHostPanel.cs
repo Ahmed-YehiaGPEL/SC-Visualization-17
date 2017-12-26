@@ -273,8 +273,8 @@ namespace OpenGlHostControl
                 case 'Y':// +Y
                     scaleAmount = Point3.One + (Point3.Up * ScaleFactor);
                     break;
-                case 'q':
-                case 'Q':// -Y
+                case 'h':
+                case 'H':// -Y
                     scaleAmount = new Point3(1,ScaleFactor * .5,1);
                     break;
                 default:

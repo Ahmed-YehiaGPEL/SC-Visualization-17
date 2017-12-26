@@ -628,6 +628,7 @@
             this.glHostPanel.StencilBits = ((byte)(0));
             this.glHostPanel.TabIndex = 2;
             this.glHostPanel.TranslationFactor = 1D;
+            this.glHostPanel.OnSelectedDataChanged += new OpenGlHostControl.OpenGlHostPanel.OnSelectedDataChangedDelegate(this.glHostPanel_OnSelectedDataChanged);
             // 
             // Controller
             // 

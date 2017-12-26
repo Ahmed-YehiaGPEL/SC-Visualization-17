@@ -18,8 +18,12 @@ namespace Visualization.Utilities.Contouring
             double maxOfData = self.GetMaximumBounds(dataIndex);
 
             double interval = Mathf.SliceInterval(numberOfSurfaces, minOfData, maxOfData);
-
             List<IsoSurface> meshSurface = new List<IsoSurface>();
+
+            if (interval == 0)
+            {
+                return meshSurface;
+            }
 
             for (double isoValue = minOfData; isoValue <= numberOfSurfaces; isoValue += interval)
             {

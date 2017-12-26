@@ -134,6 +134,15 @@ namespace Visualisation_2017
             glHostPanel.LoadedMesh.Hidden = !toggleModelBodyRenderCheckbox.Checked;
             glHostPanel.Refresh();
         }
+
+        private void glHostPanel_OnSelectedDataChanged()
+        {
+            if (toggleIsoSurfacesRenderCheckbox.Checked)
+            {
+                int isoSurfacesCount = (int)isoSurfacesCountNumbericUpDown.Value;
+                glHostPanel.RenderMeshIsoSurfaces(isoSurfacesCount);
+            }
+        }
     }
     
 }

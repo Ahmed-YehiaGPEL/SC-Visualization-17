@@ -1,6 +1,6 @@
 using Tao.OpenGl;
 
-namespace Visualization.Mathf
+namespace Visualization.MathUtil
 {
 	public class Point3
 	{
@@ -95,16 +95,6 @@ namespace Visualization.Mathf
 			coordinates[2] = coord[2];
 		}
 
-		public static Point3 Interpolate(ref double t, Point3 a, Point3 b)
-		{
-			return a + t*(b - a);
-		}
-
-		public static Point3 Interpolate(double t, Point3 a, Point3 b)
-		{
-			return a + t*(b - a);
-		}
-
 		public static Vector3 operator -(Point3 pt1, Point3 pt2)
 		{
 			Vector3 retval = new Vector3(pt1.Data);
@@ -131,6 +121,16 @@ namespace Visualization.Mathf
 	        newPoint.z *= value;
 	        return newPoint;
 	    }
+
+        public static Point3 operator /(Point3 pt1, double value)
+        {
+            Point3 newPoint = new Point3(pt1);
+            newPoint.x = newPoint.x != 0 ? newPoint.x /= value : newPoint.x;
+            newPoint.y = newPoint.y != 0 ? newPoint.y /= value : newPoint.y;
+            newPoint.z = newPoint.z != 0 ? newPoint.z /= value : newPoint.z;
+            return newPoint;
+        }
+
         public static Point3 operator -(Point3 pt1, double value)
         {
             Point3 newPoint = new Point3();

@@ -76,7 +76,7 @@ namespace ColorUtilityPackage
         private static Color CalculateColorContinous(double value, double min, double max)
         {
             Color finalResult = DefaultColor;
-            if (max < min)
+            if (max <= min)
             {
                 return finalResult;
             }

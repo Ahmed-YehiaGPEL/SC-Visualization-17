@@ -55,7 +55,20 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.renderModeComboBox = new System.Windows.Forms.ComboBox();
             this.colorModePanel1 = new ColorModePanelControl.ColorModePanel();
+            this.toggleModelBodyRenderCheckbox = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.calculateIsoSurfacesButton = new System.Windows.Forms.Button();
+            this.isoSurfacesCountNumbericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.toggleIsoSurfacesRenderCheckbox = new System.Windows.Forms.CheckBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.calculateLineContoursButton = new System.Windows.Forms.Button();
+            this.lineContoursCountNumberic = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.contourStyleComboBox = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.toggleLineContoursCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -72,6 +85,11 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.isoSurfacesCountNumbericUpDown)).BeginInit();
+            this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.lineContoursCountNumberic)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,8 +108,8 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(648, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 74.19929F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.80071F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 79.7153F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.2847F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 102F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(281, 665);
             this.tableLayoutPanel1.TabIndex = 3;
@@ -119,7 +137,8 @@
             this.meshInfoTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.meshInfoTextBox.Size = new System.Drawing.Size(269, 73);
             this.meshInfoTextBox.TabIndex = 0;
-            this.meshInfoTextBox.Text = "Vertices: 203";
+            this.meshInfoTextBox.Text = "\r\nVertices: 203";
+            this.meshInfoTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // tabControl1
             // 
@@ -130,7 +149,7 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(275, 411);
+            this.tabControl1.Size = new System.Drawing.Size(275, 442);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPage1
@@ -141,14 +160,14 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(267, 382);
+            this.tabPage1.Size = new System.Drawing.Size(267, 413);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Mesh";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // resetTransformationsBtn
             // 
-            this.resetTransformationsBtn.Location = new System.Drawing.Point(7, 340);
+            this.resetTransformationsBtn.Location = new System.Drawing.Point(6, 356);
             this.resetTransformationsBtn.Name = "resetTransformationsBtn";
             this.resetTransformationsBtn.Size = new System.Drawing.Size(251, 36);
             this.resetTransformationsBtn.TabIndex = 4;
@@ -318,7 +337,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(267, 382);
+            this.tabPage2.Size = new System.Drawing.Size(267, 413);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Rendering";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -328,10 +347,11 @@
             this.flowLayoutPanel1.Controls.Add(this.groupBox4);
             this.flowLayoutPanel1.Controls.Add(this.groupBox5);
             this.flowLayoutPanel1.Controls.Add(this.colorModePanel1);
+            this.flowLayoutPanel1.Controls.Add(this.toggleModelBodyRenderCheckbox);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(261, 376);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(261, 407);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // groupBox4
@@ -389,24 +409,184 @@
             this.colorModePanel1.TabIndex = 2;
             this.colorModePanel1.OnColorFunctionChanged += new ColorModePanelControl.ColorModePanel.OnColorFunctionChangedDelegate(this.colorModePanel1_OnColorFunctionChanged);
             // 
+            // toggleModelBodyRenderCheckbox
+            // 
+            this.toggleModelBodyRenderCheckbox.AutoSize = true;
+            this.toggleModelBodyRenderCheckbox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toggleModelBodyRenderCheckbox.Location = new System.Drawing.Point(3, 371);
+            this.toggleModelBodyRenderCheckbox.Name = "toggleModelBodyRenderCheckbox";
+            this.toggleModelBodyRenderCheckbox.Size = new System.Drawing.Size(113, 21);
+            this.toggleModelBodyRenderCheckbox.TabIndex = 4;
+            this.toggleModelBodyRenderCheckbox.Text = "Render Body";
+            this.toggleModelBodyRenderCheckbox.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.toggleModelBodyRenderCheckbox.UseVisualStyleBackColor = true;
+            this.toggleModelBodyRenderCheckbox.CheckedChanged += new System.EventHandler(this.toggleModelBodyRenderCheckbox_CheckedChanged);
+            // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.groupBox10);
+            this.tabPage3.Controls.Add(this.groupBox9);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(267, 382);
+            this.tabPage3.Size = new System.Drawing.Size(267, 413);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Contouring";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.calculateIsoSurfacesButton);
+            this.groupBox10.Controls.Add(this.isoSurfacesCountNumbericUpDown);
+            this.groupBox10.Controls.Add(this.label7);
+            this.groupBox10.Controls.Add(this.toggleIsoSurfacesRenderCheckbox);
+            this.groupBox10.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox10.Location = new System.Drawing.Point(3, 232);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(261, 200);
+            this.groupBox10.TabIndex = 4;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "IsoSurfaces";
+            // 
+            // calculateIsoSurfacesButton
+            // 
+            this.calculateIsoSurfacesButton.Location = new System.Drawing.Point(6, 124);
+            this.calculateIsoSurfacesButton.Name = "calculateIsoSurfacesButton";
+            this.calculateIsoSurfacesButton.Size = new System.Drawing.Size(247, 41);
+            this.calculateIsoSurfacesButton.TabIndex = 6;
+            this.calculateIsoSurfacesButton.Text = "Calculate";
+            this.calculateIsoSurfacesButton.UseVisualStyleBackColor = true;
+            this.calculateIsoSurfacesButton.Click += new System.EventHandler(this.CalculateIsoSurfacesButtonClick);
+            // 
+            // isoSurfacesCountNumbericUpDown
+            // 
+            this.isoSurfacesCountNumbericUpDown.Location = new System.Drawing.Point(9, 54);
+            this.isoSurfacesCountNumbericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.isoSurfacesCountNumbericUpDown.Name = "isoSurfacesCountNumbericUpDown";
+            this.isoSurfacesCountNumbericUpDown.Size = new System.Drawing.Size(245, 22);
+            this.isoSurfacesCountNumbericUpDown.TabIndex = 5;
+            this.isoSurfacesCountNumbericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 28);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(105, 17);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "Surfaces Count";
+            // 
+            // toggleIsoSurfacesRenderCheckbox
+            // 
+            this.toggleIsoSurfacesRenderCheckbox.AutoSize = true;
+            this.toggleIsoSurfacesRenderCheckbox.Location = new System.Drawing.Point(10, 80);
+            this.toggleIsoSurfacesRenderCheckbox.Name = "toggleIsoSurfacesRenderCheckbox";
+            this.toggleIsoSurfacesRenderCheckbox.Size = new System.Drawing.Size(130, 21);
+            this.toggleIsoSurfacesRenderCheckbox.TabIndex = 3;
+            this.toggleIsoSurfacesRenderCheckbox.Text = "Render Surface";
+            this.toggleIsoSurfacesRenderCheckbox.UseVisualStyleBackColor = true;
+            this.toggleIsoSurfacesRenderCheckbox.CheckedChanged += new System.EventHandler(this.toggleIsoSurfacesRenderCheckbox_CheckedChanged);
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.calculateLineContoursButton);
+            this.groupBox9.Controls.Add(this.lineContoursCountNumberic);
+            this.groupBox9.Controls.Add(this.label5);
+            this.groupBox9.Controls.Add(this.contourStyleComboBox);
+            this.groupBox9.Controls.Add(this.label4);
+            this.groupBox9.Controls.Add(this.toggleLineContoursCheckBox);
+            this.groupBox9.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox9.Location = new System.Drawing.Point(3, 3);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(261, 229);
+            this.groupBox9.TabIndex = 3;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Contour Lines";
+            // 
+            // calculateLineContoursButton
+            // 
+            this.calculateLineContoursButton.Location = new System.Drawing.Point(3, 171);
+            this.calculateLineContoursButton.Name = "calculateLineContoursButton";
+            this.calculateLineContoursButton.Size = new System.Drawing.Size(247, 40);
+            this.calculateLineContoursButton.TabIndex = 7;
+            this.calculateLineContoursButton.Text = "Calculate";
+            this.calculateLineContoursButton.UseVisualStyleBackColor = true;
+            this.calculateLineContoursButton.Click += new System.EventHandler(this.calculateLineContoursButton_Click);
+            // 
+            // lineContoursCountNumberic
+            // 
+            this.lineContoursCountNumberic.Location = new System.Drawing.Point(9, 96);
+            this.lineContoursCountNumberic.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.lineContoursCountNumberic.Name = "lineContoursCountNumberic";
+            this.lineContoursCountNumberic.Size = new System.Drawing.Size(245, 22);
+            this.lineContoursCountNumberic.TabIndex = 9;
+            this.lineContoursCountNumberic.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(2, 75);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(58, 17);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Number";
+            // 
+            // contourStyleComboBox
+            // 
+            this.contourStyleComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.contourStyleComboBox.Enabled = false;
+            this.contourStyleComboBox.FormattingEnabled = true;
+            this.contourStyleComboBox.Items.AddRange(new object[] {
+            "Lines",
+            "Flooded"});
+            this.contourStyleComboBox.Location = new System.Drawing.Point(5, 44);
+            this.contourStyleComboBox.Name = "contourStyleComboBox";
+            this.contourStyleComboBox.Size = new System.Drawing.Size(251, 24);
+            this.contourStyleComboBox.TabIndex = 7;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(2, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(93, 17);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Contour Style";
+            // 
+            // toggleLineContoursCheckBox
+            // 
+            this.toggleLineContoursCheckBox.AutoSize = true;
+            this.toggleLineContoursCheckBox.Location = new System.Drawing.Point(5, 124);
+            this.toggleLineContoursCheckBox.Name = "toggleLineContoursCheckBox";
+            this.toggleLineContoursCheckBox.Size = new System.Drawing.Size(138, 21);
+            this.toggleLineContoursCheckBox.TabIndex = 5;
+            this.toggleLineContoursCheckBox.Text = "Render Contours";
+            this.toggleLineContoursCheckBox.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.textBox2);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Bold);
-            this.groupBox3.Location = new System.Drawing.Point(3, 420);
+            this.groupBox3.Location = new System.Drawing.Point(3, 451);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(275, 139);
+            this.groupBox3.Size = new System.Drawing.Size(275, 108);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Legend";
@@ -420,11 +600,10 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox2.Size = new System.Drawing.Size(269, 115);
+            this.textBox2.Size = new System.Drawing.Size(269, 84);
             this.textBox2.TabIndex = 0;
-            this.textBox2.Text = "Move: Up | Down | Right | Left Arrows\r\n\r\nZoom In/Put: Page Down / Page Up\r\n\r\nUnif" +
-    "orm Scale Up: W\r\nUniform Scale Down: S\r\n\r\nScale On X +/- : X / C\r\nScale On Y +/-" +
-    ": Y / H\r\n\r\nRotate on Selected Axis: R";
+            this.textBox2.Text = "Move: Up | Down | Right | Left Arrows\r\n\r\nZoom In/Out: Page Down / Page Up\r\n\r\nScal" +
+    "e On X +/- : X / C\r\nScale On Y +/-: Y / H\r\n\r\nRotate on Selected Axis: R";
             // 
             // timer1
             // 
@@ -443,6 +622,7 @@
             this.openGlHostPanel1.HookRenderOnPaintEvent = true;
             this.openGlHostPanel1.Location = new System.Drawing.Point(9, 12);
             this.openGlHostPanel1.Name = "openGlHostPanel1";
+            this.openGlHostPanel1.RenderIsoSurfaces = false;
             this.openGlHostPanel1.ScaleFactor = 1D;
             this.openGlHostPanel1.Size = new System.Drawing.Size(633, 641);
             this.openGlHostPanel1.StencilBits = ((byte)(0));
@@ -474,8 +654,16 @@
             this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.isoSurfacesCountNumbericUpDown)).EndInit();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.lineContoursCountNumberic)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
@@ -514,5 +702,18 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.ListBox meshDataListBox;
         private System.Windows.Forms.ComboBox renderModeComboBox;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Button calculateIsoSurfacesButton;
+        private System.Windows.Forms.NumericUpDown isoSurfacesCountNumbericUpDown;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox toggleIsoSurfacesRenderCheckbox;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Button calculateLineContoursButton;
+        private System.Windows.Forms.NumericUpDown lineContoursCountNumberic;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox contourStyleComboBox;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox toggleLineContoursCheckBox;
+        private System.Windows.Forms.CheckBox toggleModelBodyRenderCheckbox;
     }
 }

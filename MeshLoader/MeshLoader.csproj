@@ -18,7 +18,7 @@
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
-    <RootNamespace>MeshLoader</RootNamespace>
+    <RootNamespace>Visualization</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>
     </StartupObject>
@@ -107,6 +107,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataStructures\Node.cs" />
+    <Compile Include="Geometry\IsoSurface.cs" />
+    <Compile Include="Geometry\IsoTriangle.cs" />
     <Compile Include="Parser\FormattedStream.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -141,6 +143,10 @@
     <Compile Include="Parser\Parser.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Geometry\Iso.cs" />
+    <Compile Include="Utilities\IsoSurfaceCalculations\EdgeUtilities.cs" />
+    <Compile Include="Utilities\IsoSurfaceCalculations\LineContour.cs" />
+    <Compile Include="Utilities\IsoSurfaceCalculations\MeshUtilties.cs" />
     <Content Include="App.ico" />
   </ItemGroup>
   <ItemGroup>

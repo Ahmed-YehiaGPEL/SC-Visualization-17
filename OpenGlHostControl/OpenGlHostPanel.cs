@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Diagnostics;
 using System.Windows.Forms;
 using Tao.OpenGl;
 using Visualization;
 using ColorModePanelControl;
 using ColorUtilityPackage;
-using Visualization.Mathf;
+using Visualization.MathUtil;
 
 namespace OpenGlHostControl
 {
@@ -21,7 +20,9 @@ namespace OpenGlHostControl
         public double ScaleFactor { get; set; }
         public Axis RotationAxis => rotationAxis;
         public bool HookRenderOnPaintEvent { get; set; }
-        private static Point3 InitialPoint => new Point3(0, 0, -100);
+        public bool RenderIsoSurfaces { get; set; }
+        private static Point3 InitialPoint => new Point3(0, 0, -800.0);
+
         #endregion
 
         #region Events
@@ -41,7 +42,7 @@ namespace OpenGlHostControl
         private bool isInitialized;
         private ColouringFunction colouringFunction;
         private ColorModePanel colorModePanel;
-
+        
         public OpenGlHostPanel()
         {
             InitializeComponent();
@@ -51,7 +52,6 @@ namespace OpenGlHostControl
 
         public void Init()
         {
-
             renderMode = RenderMode.WireFrame;
             TranslationFactor = 1.0d;
             ScaleFactor = 1.0d;
@@ -108,11 +108,7 @@ namespace OpenGlHostControl
         public void SetPanel(ColorModePanel panel)
         {
             this.colorModePanel = panel;
-            colorModePanel.OnColorSetChanged += () =>
-            {
-                this.Render();
-                this.Refresh();
-            };
+            HookColorPanelEvents();
         }
 
         public void SetRotationAxis(Axis axis)
@@ -125,6 +121,80 @@ namespace OpenGlHostControl
             this.renderMode = renderMode;
             OnRenderChanged?.Invoke(renderMode);
         }
+
+        public void RenderMeshIsoSurfaces(int isoSurfacesCount)
+        {
+            mesh.CalculateAndRenderIsoSurfaces(isoSurfacesCount, mesh.DataIndex);
+            this.Render();
+            this.Refresh();
+        }
+
+        public void RenderMeshLineContours(int lineContoursCount)
+        {
+            mesh.CalculateAndRenderLineContours(lineContoursCount, mesh.DataIndex);
+            this.Render();
+            this.Refresh();
+        }
+       
+        #region Transformations
+
+        public void Rotate(Point3 value)
+        {
+
+            AssertInitialized();
+            //return to origin
+            mesh.Transformation.Translate(translation * -1);
+            Matrix rot;
+            switch (rotationAxis)
+            {
+                case Axis.X:
+                    rot = Matrix.RotationX(3 * value.x);
+                    break;
+                case Axis.Y:
+                    rot = Matrix.RotationY(3 * value.y);
+                    break;
+                case Axis.Z:
+                    rot = Matrix.RotationZ(3 * value.z);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            rotation = rot;
+            mesh.Transformation.Multiply(rot, Order.Prepend);
+            mesh.Transformation.Translate(translation);
+            //perform gl rotation
+            Gl.glMatrixMode(Gl.GL_MODELVIEW);
+            Gl.glPushMatrix();
+            Gl.glMultMatrixd(mesh.Transformation.Data);
+            Gl.glPopMatrix();
+        }
+
+        public void Translate(Point3 value)
+        {
+            translation += value;
+            mesh.Transformation.Translate(value);
+        }
+
+        public void Scale(Point3 value)
+        {
+            scale += value;
+            mesh.Transformation.Scale(value);
+        }
+
+        public void ResetTransform()
+        {
+            mesh.RestoreTransformation();
+            ResetTransformationValues();
+            Translate(InitialPoint);
+        }
+
+        private void ResetTransformationValues()
+        {
+            translation.Set(0, 0, 0);
+            scale.Set(0, 0, 0);
+            rotation.SetZero();
+        }
+        #endregion
 
         #region Input Handling
         protected override bool IsInputKey(Keys keyData)
@@ -196,7 +266,7 @@ namespace OpenGlHostControl
                     break;
                 case 'c':
                 case 'C':    // -X
-                    scaleAmount = new Point3(-1, 1, 1);
+                    scaleAmount = new Point3(ScaleFactor * 0.5, 1, 1);
                     break;
 
                 case 'y':
@@ -205,86 +275,14 @@ namespace OpenGlHostControl
                     break;
                 case 'q':
                 case 'Q':// -Y
-                    scaleAmount = (Point3.One + (Point3.Down * ScaleFactor));
+                    scaleAmount = new Point3(1,ScaleFactor * .5,1);
                     break;
-                case 'w':
-                case 'W':// Uniform Scalar Up
-                    scaleAmount = Point3.One;
-                    break;
-                case 's':
-                case 'S':// Uniform Scalar Down
-                    scaleAmount = Point3.One * -1;
-                    break;
-
                 default:
                     base.OnKeyPress(e);
                     return;
             }
-            Debug.WriteLine($"Scale AMount {scaleAmount}");
             Scale(scaleAmount);
             this.Refresh();
-        }
-        #endregion
-
-        #region Transformations
-
-        public void Rotate(Point3 value)
-        {
-
-            AssertInitialized();
-            //return to origin
-            mesh.Transformation.Translate(translation * -1);
-            Matrix rot;
-            //performing rotatio // Can't rotate on both axis at once : eulear lock
-
-            switch (rotationAxis)
-            {
-                case Axis.X:
-                    rot = Matrix.RotationX(3 * value.x);
-                    break;
-                case Axis.Y:
-                    rot = Matrix.RotationY(3 * value.y);
-                    break;
-                case Axis.Z:
-                    rot = Matrix.RotationZ(3 * value.z);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            rotation = rot;
-            mesh.Transformation.Multiply(rot, Order.Prepend);
-            mesh.Transformation.Translate(translation);
-            //perform gl rotation
-            Gl.glMatrixMode(Gl.GL_MODELVIEW);
-            Gl.glPushMatrix();
-            Gl.glMultMatrixd(mesh.Transformation.Data);
-            Gl.glPopMatrix();
-        }
-
-        public void Translate(Point3 value)
-        {
-            translation += value;
-            mesh.Transformation.Translate(value);
-        }
-
-        public void Scale(Point3 value)
-        {
-            scale += value;
-            mesh.Transformation.Scale(value);
-        }
-
-        public void ResetTransform()
-        {
-            mesh.RestoreTransformation();
-            ResetTransformationValues();
-            Translate(InitialPoint);
-        }
-
-        private void ResetTransformationValues()
-        {
-            translation.Set(0, 0, 0);
-            scale.Set(0, 0, 0);
-            rotation.SetZero();
         }
         #endregion
 
@@ -304,13 +302,24 @@ namespace OpenGlHostControl
 
         private void InitViewPort()
         {
-            Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
+            /*
+             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
             Gl.glClearColor(0, 0, 0, 0);
             Gl.glViewport(0, 0, this.Width, this.Height);
             Glu.gluOrtho2D(-this.Width, this.Width, -this.Height, this.Height);
             Glu.gluPerspective(1, this.Width / (float)this.Height, 0, 200);
             Gl.glMatrixMode(Gl.GL_PROJECTION);
             Gl.glLoadIdentity();
+            */
+            Gl.glMatrixMode(Gl.GL_PROJECTION);
+            Gl.glLoadIdentity();
+            Glu.gluPerspective(60.0, this.Width / (float)this.Height, 0.01, 200000);
+            Gl.glEnable(Gl.GL_DEPTH_TEST);
+            Gl.glDepthFunc(Gl.GL_LESS);
+
+            Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
+            Gl.glClearColor(0, 0, 0, 0);
+            Gl.glViewport(0, 0, this.Width, this.Height);
         }
 
         private void Render()
@@ -330,7 +339,21 @@ namespace OpenGlHostControl
                     mesh.RenderWireFrame();
                     break;
             }
+            mesh.RenderLineContours();
+            mesh.RenderIsoSurfaces();
             Gl.glFlush();
+        }
+
+        private void HookColorPanelEvents()
+        {
+            if (colorModePanel != null)
+            {
+                colorModePanel.OnColorSetChanged += () =>
+                {
+                    this.Render();
+                    this.Refresh();
+                };
+            }
         }
 
         private void HookRender()

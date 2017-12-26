@@ -1,6 +1,6 @@
 using System;
 
-namespace Visualization.Mathf
+namespace Visualization.MathUtil
 {
 	/// <summary>
 	/// Summary description for Matrix.

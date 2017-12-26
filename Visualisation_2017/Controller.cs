@@ -4,7 +4,7 @@ using ColorModePanelControl;
 using OpenGlHostControl;
 using Visualization;
 using ColorUtilityPackage;
-using Visualization.Mathf;
+using Visualization.MathUtil;
 
 namespace Visualisation_2017
 {
@@ -17,12 +17,14 @@ namespace Visualisation_2017
         {
             InitializeComponent();
             InitializeDefaults();
+            openGlHostPanel1.SetPanel(colorModePanel1);        
         }
 
         private void InitializeDefaults()
         {
             rotationAxisComboBox.SelectedIndex = 0;
             renderModeComboBox.SelectedIndex = 0;
+            contourStyleComboBox.SelectedIndex = 0;
         }
 
         private void OpenFileButton1Click(object sender, EventArgs e)
@@ -39,8 +41,8 @@ namespace Visualisation_2017
         {
             openGlHostPanel1.LoadMesh(meshFilePath);
             LoadMeshData();
-            openGlHostPanel1.SetPanel(this.colorModePanel1);
-            meshInfoTextBox.Text = $@"Vertices: {openGlHostPanel1.LoadedMesh.VerticesCount}";
+            toggleModelBodyRenderCheckbox.Checked = true;
+            meshInfoTextBox.Text = $"\nVertices: {openGlHostPanel1.LoadedMesh.VerticesCount}";
             this.Text = $@"Controller - {fileDialog.SafeFileName}";
             this.Refresh();
             timer1.Enabled = checkBox1.Checked;
@@ -48,16 +50,19 @@ namespace Visualisation_2017
 
         private void LoadMeshData()
         {
+            meshDataListBox.Items.Clear();
             foreach (string meshData in openGlHostPanel1.MeshData.Keys)
             {
                 meshDataListBox.Items.Add(meshData);
             }
+            meshDataListBox.SelectedIndex = 0;
         }
 
         private void HandleMeshDataSelected(object sender, EventArgs e)
         {
             openGlHostPanel1.ActivateDataIndex(meshDataListBox.SelectedIndex);
         }
+
         private void Controller_Load(object sender, EventArgs e)
         {
 
@@ -104,6 +109,31 @@ namespace Visualisation_2017
         private void colorModePanel1_OnColorFunctionChanged(ColouringFunction colouringFunction)
         {
             openGlHostPanel1.SetColouringFunction(colouringFunction);
+        }
+
+        private void CalculateIsoSurfacesButtonClick(object sender, EventArgs e)
+        {
+            int isoSurfacesCount = (int)isoSurfacesCountNumbericUpDown.Value;
+            openGlHostPanel1.RenderMeshIsoSurfaces(isoSurfacesCount);
+            toggleIsoSurfacesRenderCheckbox.Checked = true;
+        }
+
+        private void toggleIsoSurfacesRenderCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            openGlHostPanel1.RenderIsoSurfaces = toggleIsoSurfacesRenderCheckbox.Checked;
+        }
+
+        private void calculateLineContoursButton_Click(object sender, EventArgs e)
+        {
+            int  lineContoursCount = (int)lineContoursCountNumberic.Value;
+            openGlHostPanel1.RenderMeshLineContours(lineContoursCount);
+            toggleLineContoursCheckBox.Checked = true;
+        }
+
+        private void toggleModelBodyRenderCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            openGlHostPanel1.LoadedMesh.Hidden = !toggleModelBodyRenderCheckbox.Checked;
+            openGlHostPanel1.Refresh();
         }
     }
     

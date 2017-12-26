@@ -1,4 +1,4 @@
-using Visualization.Mathf;
+using Visualization.MathUtil;
 
 namespace Visualization
 {

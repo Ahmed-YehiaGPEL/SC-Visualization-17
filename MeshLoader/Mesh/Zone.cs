@@ -2,7 +2,7 @@ using System.Drawing;
 using System.Linq;
 using ColorUtilityPackage;
 using Tao.OpenGl;
-using Visualization.Mathf;
+using Visualization.MathUtil;
 
 namespace Visualization
 {

@@ -1,9 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MeshLoader.Geometry;
 using Tao.OpenGl;
 using Visualization.DataStructures;
-using Visualization.Mathf;
+using Visualization.MathUtil;
+using Visualization.Utilities.Contouring;
+using Visualization.Utilities.LineContours;
 
 namespace Visualization
 {
@@ -31,10 +34,20 @@ namespace Visualization
         private Matrix originalTransformation;
         private List<double> minimumBounds;
         private List<double> maximumBounds;
-        private int dataIndex;
 
-        public Mesh(string fileName) : this(fileName, DefaultMeshSize)
+        private List<IsoSurface> isoSurfaces;
+        private readonly Dictionary<int, List<IsoSurface>> isoSurfaceCach = new Dictionary<int, List<IsoSurface>>();
+
+        private List<LineContour> lineContours;
+        private readonly Dictionary<int,List<LineContour>> lineContoursCach = new Dictionary<int, List<LineContour>>();
+
+        private int dataIndex;
+        private bool renderIsoSurfaces;
+        private bool renderLineContours;
+
+        public Mesh(string fileName) : this(fileName, DefaultMeshSize) 
         {
+
         }
 
         private Mesh(string fileName, double size)
@@ -78,11 +91,6 @@ namespace Visualization
             Gl.glPopMatrix();
         }
         
-        public void RestoreTransformation()
-        {
-            Transformation = originalTransformation.Clone();
-        }
-
         public void CalculateMinMaxBounds()
         {
             ResetBounds();
@@ -98,20 +106,70 @@ namespace Visualization
             }
         }
 
-        public double GetMinimumBounds(int index)
+        public void CalculateAndRenderIsoSurfaces(int isoSurfacesCount, int indexOfData)
         {
-            return this.minimumBounds[index];
+            List<IsoSurface> surfaces;
+            isoSurfaceCach.TryGetValue(indexOfData, out surfaces);
+            if (surfaces == null)
+            {
+                surfaces = this.CalculateIsoSurface(isoSurfacesCount, indexOfData);
+                isoSurfaceCach.Add(indexOfData, surfaces);
+            }
+            isoSurfaces = surfaces;
+
+            renderIsoSurfaces = true;
+            RenderIsoSurfaces();
         }
 
-        public double GetMaximumBounds(int index)
+        public void CalculateAndRenderLineContours(int contoursCount, int indexOfData)
         {
-            return this.maximumBounds[index];
+            List<LineContour> contours;
+            lineContoursCach.TryGetValue(indexOfData, out contours);
+            if (contours == null)
+            {
+                contours = this.CalculateLineContours(contoursCount, indexOfData);
+                lineContoursCach.Add(indexOfData, contours);
+            }
+            lineContours = contours;
+
+            renderLineContours = true;
+            RenderLineContours();
         }
 
-        public void SetDataIndex(int dataIndex)
+        public void RenderIsoSurfaces()
         {
-            this.dataIndex = dataIndex;
+            if (renderIsoSurfaces == false) return;
+            Gl.glMatrixMode(Gl.GL_MODELVIEW);
+            Gl.glPushMatrix();
+            Gl.glMultMatrixd(Transformation.Data);
+            foreach (IsoSurface surface in isoSurfaces)
+            {
+                surface.Render();
+            }
+            Gl.glPopMatrix();
         }
+
+        public void RenderLineContours()
+        {
+            if (renderLineContours == false) return;
+
+            Gl.glMatrixMode(Gl.GL_MODELVIEW);
+            Gl.glPushMatrix();
+            Gl.glMultMatrixd(Transformation.Data);
+            foreach (LineContour lineContour in lineContours)
+            {
+                lineContour.Render();
+            }
+            Gl.glPopMatrix();
+        }
+
+        public void RestoreTransformation() => Transformation = originalTransformation.Clone();
+
+        public double GetMinimumBounds(int index) => this.minimumBounds[index];
+
+        public double GetMaximumBounds(int index) => this.maximumBounds[index];
+
+        public void SetDataIndex(int dataIndex) => this.dataIndex = dataIndex;
 
         private void GetMinMaxValues(uint varIndex, out double min, out double max)
         {
@@ -141,7 +199,8 @@ namespace Visualization
         {
             Point3 candidateMin = new Point3();
             Point3 candidateMax = new Point3();
-
+            isoSurfaces = new List<IsoSurface>();
+            lineContours = new List<LineContour>();
             Point3 min = new Point3(double.PositiveInfinity,
                 double.PositiveInfinity,
                 double.PositiveInfinity);

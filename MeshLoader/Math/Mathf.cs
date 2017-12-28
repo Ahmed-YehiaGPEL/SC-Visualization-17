@@ -90,7 +90,7 @@ namespace Visualization.MathUtil
 
         public static double SliceInterval(double count, double min, double max)
         {
-            double interval = (max - min) / (count+1);
+            double interval = (max - min) / (count);
             return interval;
         }
     }

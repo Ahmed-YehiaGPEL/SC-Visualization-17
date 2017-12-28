@@ -64,6 +64,8 @@ namespace OpenGlHostControl
 
         public void LoadMesh(string path)
         {
+            renderMode = RenderMode.Filled;
+
             ResetTransformationValues();
             mesh = new Mesh(path);
             mesh.CalculateMinMaxBounds();
@@ -86,10 +88,10 @@ namespace OpenGlHostControl
             isInitialized = false;
         }
 
-        public void ActivateDataIndex(int index)
+        public void ActivateDataIndex(string key)
         {
             AssertInitialized();
-            mesh.SetDataIndex(index);
+            mesh.SetDataIndex(key);
             OnSelectedDataChanged?.Invoke();
         }
 

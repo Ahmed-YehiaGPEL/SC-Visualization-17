@@ -73,7 +73,7 @@ namespace Visualization
             Gl.glMultMatrixd(Transformation.Data);
             foreach (Zone z in Zones)
             {
-                z.glDraw(this);
+                z.RenderWireFrame(this);
             }
             Gl.glPopMatrix();
         }
@@ -86,7 +86,7 @@ namespace Visualization
             Gl.glMultMatrixd(Transformation.Data);
             foreach (Zone z in Zones)
             {
-                z.glDrawFilled(this);
+                z.RenderFilled(this);
             }
             Gl.glPopMatrix();
         }
@@ -130,8 +130,16 @@ namespace Visualization
                 contours = this.CalculateLineContours(contoursCount, indexOfData);
                 lineContoursCach.Add(indexOfData, contours);
             }
-            lineContours = contours;
+            else
+            {
+                if (contoursCount != lineContours.Count )
+                {
+                    contours = this.CalculateLineContours(contoursCount, indexOfData);
+                    lineContoursCach.Add(indexOfData, contours);
+                }
+            }
 
+            lineContours = contours;
             renderLineContours = true;
             RenderLineContours();
         }
@@ -169,7 +177,7 @@ namespace Visualization
 
         public double GetMaximumBounds(int index) => this.maximumBounds[index];
 
-        public void SetDataIndex(int dataIndex) => this.dataIndex = dataIndex;
+        public void SetDataIndex(string key) => this.dataIndex = (int)((uint)VarToIndex[key]);
 
         private void GetMinMaxValues(uint varIndex, out double min, out double max)
         {

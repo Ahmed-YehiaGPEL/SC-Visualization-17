@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using ColorUtilityPackage;
@@ -11,7 +12,9 @@ namespace Visualization
         //Data Members
         public uint[] Edges;
         public uint[] Vertices;
-        //Constructors
+
+        private readonly Dictionary<ColouringFunction, Dictionary<int, Color>> colors =
+            new Dictionary<ColouringFunction, Dictionary<int, Color>>();
         public Face(ElementType elementType)
         {
             switch (elementType)
@@ -51,7 +54,7 @@ namespace Visualization
             Edges[3] = e4;
             Vertices = new uint[4];
         }
-        //Methods
+
         public void SetQuad(uint e1, uint e2, uint e3, uint e4)
         {
             Edges[0] = e1;
@@ -82,7 +85,7 @@ namespace Visualization
             Vertices[2] = p3;
         }
 
-        public void glTell(Zone owner, double min, double max, int index)
+        public void Render(Zone owner, double min, double max, int index)
         {
             Gl.glBegin(Gl.GL_LINES);
             foreach (uint edge in Edges)
@@ -93,13 +96,38 @@ namespace Visualization
                     owner.Vertices[owner.Edges[edge].End].Data[index]
                 }.Average();
 
-                Color color = ColorUtility.CalculateColor(value, min, max);
+                Color color = owner.Edges[edge].GetColor(value, min, max,index);
 
                 Gl.glColor3d(color.R / 255.0, color.G / 255.0, color.B / 255.0);
 
-                owner.glTellEdge(edge);
+                owner.RenderEdge(edge);
             }
             Gl.glEnd();
+        }
+
+        public Color GetColor(double averageValue, double minData, double maxData,int dataIndex)
+        {
+            Dictionary<int, Color> colorDictionary;
+            colors.TryGetValue(ColorUtility.ColouringFunction, out colorDictionary);
+            if (colorDictionary == null)
+            {
+                colorDictionary = new Dictionary<int, Color>();
+                //Calculate Color
+                Color value = ColorUtility.CalculateColor(averageValue, minData, maxData);
+                colorDictionary.Add(dataIndex, value);
+                colors.Add(ColorUtility.ColouringFunction, colorDictionary);
+                return value;
+            }
+            else
+            {
+                if (colorDictionary.ContainsKey(dataIndex))
+                    return colors[ColorUtility.ColouringFunction][dataIndex];
+
+                Color value = ColorUtility.CalculateColor(averageValue, minData, maxData);
+                colorDictionary.Add(dataIndex, value);
+                colors[ColorUtility.ColouringFunction] = colorDictionary;
+                return value;
+            }
         }
     }
 }

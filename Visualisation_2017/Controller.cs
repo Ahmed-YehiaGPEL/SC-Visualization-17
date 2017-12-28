@@ -59,7 +59,7 @@ namespace Visualisation_2017
 
         private void HandleMeshDataSelected(object sender, EventArgs e)
         {
-            glHostPanel.ActivateDataIndex(meshDataListBox.SelectedIndex);
+            glHostPanel.ActivateDataIndex(meshDataListBox.SelectedItem.ToString());
         }
 
         private void Controller_Load(object sender, EventArgs e)
@@ -141,6 +141,11 @@ namespace Visualisation_2017
             {
                 int isoSurfacesCount = (int)isoSurfacesCountNumbericUpDown.Value;
                 glHostPanel.RenderMeshIsoSurfaces(isoSurfacesCount);
+            }
+            if (toggleLineContoursCheckBox.Checked)
+            {
+                int lineContoursCount = (int)lineContoursCountNumberic.Value;
+                glHostPanel.RenderMeshLineContours(lineContoursCount);
             }
         }
     }

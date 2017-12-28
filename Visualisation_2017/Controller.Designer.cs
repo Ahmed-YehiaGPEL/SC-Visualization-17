@@ -453,7 +453,7 @@
             this.calculateIsoSurfacesButton.Location = new System.Drawing.Point(6, 124);
             this.calculateIsoSurfacesButton.Name = "calculateIsoSurfacesButton";
             this.calculateIsoSurfacesButton.Size = new System.Drawing.Size(247, 41);
-            this.calculateIsoSurfacesButton.TabIndex = 6;
+            this.calculateIsoSurfacesButton.TabIndex = 13;
             this.calculateIsoSurfacesButton.Text = "Calculate";
             this.calculateIsoSurfacesButton.UseVisualStyleBackColor = true;
             this.calculateIsoSurfacesButton.Click += new System.EventHandler(this.CalculateIsoSurfacesButtonClick);
@@ -468,7 +468,7 @@
             0});
             this.isoSurfacesCountNumbericUpDown.Name = "isoSurfacesCountNumbericUpDown";
             this.isoSurfacesCountNumbericUpDown.Size = new System.Drawing.Size(245, 22);
-            this.isoSurfacesCountNumbericUpDown.TabIndex = 5;
+            this.isoSurfacesCountNumbericUpDown.TabIndex = 11;
             this.isoSurfacesCountNumbericUpDown.Value = new decimal(new int[] {
             1,
             0,
@@ -490,7 +490,7 @@
             this.toggleIsoSurfacesRenderCheckbox.Location = new System.Drawing.Point(10, 80);
             this.toggleIsoSurfacesRenderCheckbox.Name = "toggleIsoSurfacesRenderCheckbox";
             this.toggleIsoSurfacesRenderCheckbox.Size = new System.Drawing.Size(130, 21);
-            this.toggleIsoSurfacesRenderCheckbox.TabIndex = 3;
+            this.toggleIsoSurfacesRenderCheckbox.TabIndex = 12;
             this.toggleIsoSurfacesRenderCheckbox.Text = "Render Surface";
             this.toggleIsoSurfacesRenderCheckbox.UseVisualStyleBackColor = true;
             this.toggleIsoSurfacesRenderCheckbox.CheckedChanged += new System.EventHandler(this.ToggleIsoSurfacesRenderCheckbox_CheckedChanged);
@@ -516,7 +516,7 @@
             this.calculateLineContoursButton.Location = new System.Drawing.Point(3, 171);
             this.calculateLineContoursButton.Name = "calculateLineContoursButton";
             this.calculateLineContoursButton.Size = new System.Drawing.Size(247, 40);
-            this.calculateLineContoursButton.TabIndex = 7;
+            this.calculateLineContoursButton.TabIndex = 10;
             this.calculateLineContoursButton.Text = "Calculate";
             this.calculateLineContoursButton.UseVisualStyleBackColor = true;
             this.calculateLineContoursButton.Click += new System.EventHandler(this.CalculateLineContoursButton_Click);
@@ -528,10 +528,10 @@
             1,
             0,
             0,
-            0});
+            65536});
             this.lineContoursCountNumberic.Name = "lineContoursCountNumberic";
             this.lineContoursCountNumberic.Size = new System.Drawing.Size(245, 22);
-            this.lineContoursCountNumberic.TabIndex = 9;
+            this.lineContoursCountNumberic.TabIndex = 8;
             this.lineContoursCountNumberic.Value = new decimal(new int[] {
             1,
             0,
@@ -575,7 +575,7 @@
             this.toggleLineContoursCheckBox.Location = new System.Drawing.Point(5, 124);
             this.toggleLineContoursCheckBox.Name = "toggleLineContoursCheckBox";
             this.toggleLineContoursCheckBox.Size = new System.Drawing.Size(138, 21);
-            this.toggleLineContoursCheckBox.TabIndex = 5;
+            this.toggleLineContoursCheckBox.TabIndex = 9;
             this.toggleLineContoursCheckBox.Text = "Render Contours";
             this.toggleLineContoursCheckBox.UseVisualStyleBackColor = true;
             // 

@@ -112,10 +112,10 @@ namespace Visualization
             faces[3] = f;
         }
 
-        public void glTell(Zone owner, double min, double max, int index)
+        public void Render(Zone owner, double min, double max, int index)
         {
             foreach (uint face in faces)
-                owner.Faces[face].glTell(owner,min,max,index);
+                owner.Faces[face].Render(owner,min,max,index);
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.Drawing;
 using System.Linq;
-using ColorUtilityPackage;
 using Tao.OpenGl;
 using Visualization.MathUtil;
 
@@ -103,13 +102,13 @@ namespace Visualization
             }
         }
 
-        public void glDraw(Mesh owner)
+        public void RenderWireFrame(Mesh owner)
         {
             for (uint i = 0; i < ElementCount; i++)
-                Elements[i].glTell(this, owner.GetMinimumBounds(owner.DataIndex),owner.GetMaximumBounds(owner.DataIndex),owner.DataIndex);
+                Elements[i].Render(this, owner.GetMinimumBounds(owner.DataIndex),owner.GetMaximumBounds(owner.DataIndex),owner.DataIndex);
         }
 
-        public void glDrawFilled(Mesh owner)
+        public void RenderFilled(Mesh owner)
         {
             int index = owner.DataIndex;
             double minData = owner.GetMinimumBounds(index);
@@ -127,7 +126,8 @@ namespace Visualization
                             Vertices[f.Vertices[1]].Data[index],
                             Vertices[f.Vertices[2]].Data[index]
                         }.Average();
-                        Color faceColor = ColorUtility.CalculateColor(averageValue, minData, maxData);
+
+                        Color faceColor = f.GetColor(averageValue, minData, maxData,index);
 
                         Gl.glColor3d(faceColor.R / 255.0, faceColor.G / 255.0, faceColor.B / 255.0);
 
@@ -152,7 +152,7 @@ namespace Visualization
                             Vertices[f.Vertices[3]].Data[index]
                         }.Average();
 
-                        Color faceColor = ColorUtility.CalculateColor(averageValue, minData, maxData);
+                        Color faceColor = f.GetColor(averageValue, minData, maxData,index);
 
                         Gl.glColor3d(faceColor.R / 255.0, faceColor.G / 255.0, faceColor.B / 255.0);
 
@@ -166,7 +166,7 @@ namespace Visualization
             }
         }
 
-        public void glTellEdge(uint index)
+        public void RenderEdge(uint index)
         {
             Vertices[Edges[index].Start].Position.glTell();
             Vertices[Edges[index].End].Position.glTell();

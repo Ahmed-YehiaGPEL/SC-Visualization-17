@@ -23,7 +23,7 @@ namespace Visualization.Utilities.IsoSurfaceCalculations
             return finalPoint;
         }
 
-        public static void CalculateContour(this Edge self, Zone zone, double contourValue, int dataIndex,ref LineContour lineContour)
+        public static void CalculateContour(this Edge self, Zone zone, double contourValue, int dataIndex,double globalMin, double globalMax, ref LineContour lineContour)
         {
             Vertex startVertex = zone.Vertices[self.Start];
             Vertex endVertex = zone.Vertices[self.End];
@@ -34,11 +34,10 @@ namespace Visualization.Utilities.IsoSurfaceCalculations
             if (Mathf.Ranges(contourValue, startData, endData))
             {
                 double alpha = Mathf.Lerp(contourValue, startData, endData);
-
                 Point3 finalPoint = Mathf.Lerp(alpha, startVertex.Position, endVertex.Position);
 
-                Color contourColor = ColorUtility.CalculateColor(contourValue, startData,
-                    endData);
+                Color contourColor = ColorUtility.CalculateColor(contourValue,globalMin, globalMax);
+
                 lineContour.AddPoint(finalPoint);
                 lineContour.Color = contourColor;
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace ColorUtilityPackage
@@ -9,7 +10,7 @@ namespace ColorUtilityPackage
         public static List<Color> ColourSet => ColorSet;
         public static ColouringFunction ColouringFunction => colouringFunction;
 
-        private static readonly Color DefaultColor = Color.Fuchsia;
+        private static readonly Color DefaultColor = Color.White;
         
         private static readonly List<Color> ColorSet = new List<Color>
         {
@@ -27,7 +28,7 @@ namespace ColorUtilityPackage
         static ColorUtility()
         {
             ColorsCount = ColorSet.Count;
-            colouringFunction = ColouringFunction.Discrete;
+            colouringFunction = ColouringFunction.None;
         }
 
         public static void SetColouringFunction(ColouringFunction function) => colouringFunction = function;
@@ -45,6 +46,7 @@ namespace ColorUtilityPackage
                     break;
                 case ColouringFunction.None:
                     finalResult = DefaultColor;
+                    Debug.WriteLine("Default Color");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

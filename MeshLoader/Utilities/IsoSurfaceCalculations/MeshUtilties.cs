@@ -25,7 +25,7 @@ namespace Visualization.Utilities.Contouring
                 return meshSurface;
             }
 
-            for (double isoValue = minOfData; isoValue <= numberOfSurfaces; isoValue += interval)
+            for (double isoValue = minOfData + interval / 2; isoValue <= maxOfData; isoValue += interval)
             {
                 IsoSurface finalSurface = new IsoSurface();
                 foreach (Zone zone in self.Zones)
@@ -75,6 +75,7 @@ namespace Visualization.Utilities.Contouring
             return meshSurface;
         }
 
+
         public static List<LineContour> CalculateLineContours(this Mesh self, double numberofLines, int dataIndex)
         {
             double minOfData = self.GetMinimumBounds(dataIndex);
@@ -84,7 +85,7 @@ namespace Visualization.Utilities.Contouring
 
             List<LineContour> finalContours = new List<LineContour>();
 
-            for (double contourValue = minOfData+interval; contourValue <= numberofLines; contourValue+= interval)
+            for (double contourValue = minOfData + interval / 2; contourValue <= maxOfData; contourValue += interval)
             {
                 LineContour lineContour = new LineContour();
 
@@ -101,7 +102,7 @@ namespace Visualization.Utilities.Contouring
                                     foreach (uint zoneFaceEdge in zoneFace.Edges)
                                     {
                                         Edge edge = zone.Edges[zoneFaceEdge];
-                                        edge.CalculateContour(zone, contourValue, dataIndex, ref lineContour);
+                                        edge.CalculateContour(zone, contourValue, dataIndex, minOfData, maxOfData, ref lineContour);
                                     }
                                 }
                                 break;
@@ -115,11 +116,13 @@ namespace Visualization.Utilities.Contouring
 
                                     if (caseCode == "0101")
                                     {
-                                       
+
                                         Point3 firstPoint;
                                         Point3 secondPoint;
                                         Point3 finalPoint;
-                                        double alpha = Mathf.Lerp(contourValue, minOfData, maxOfData);
+                                        double alpha = 0;
+                                        double localMinData = 0;
+                                        double localMaxData = 0;
                                         double average = new[]
                                         {
                                             zone.Vertices[zoneFace.Vertices[0]].Data[dataIndex],
@@ -128,20 +131,31 @@ namespace Visualization.Utilities.Contouring
                                             zone.Vertices[zoneFace.Vertices[3]].Data[dataIndex]
                                         }.Average();
 
-                                        if (average > contourValue)
+                                        if (average < contourValue)
                                         {
+
                                             for (int i = 0; i < 3; i++)
                                             {
                                                 firstPoint = zone.Vertices[i].Position;
-
                                                 secondPoint = zone.Vertices[i + 1].Position;
+                                                localMinData = Math.Min(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                                localMaxData = Math.Max(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+
+                                                alpha = Mathf.Lerp(contourValue, localMinData, localMaxData);
                                                 finalPoint = Mathf.Lerp(alpha, firstPoint, secondPoint);
 
                                                 lineContour.AddPoint(finalPoint);
                                             }
 
+
                                             firstPoint = zone.Vertices[3].Position;
                                             secondPoint = zone.Vertices[0].Position;
+
+                                            localMinData = Math.Min(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                            localMaxData = Math.Max(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+
+                                            alpha = Mathf.Lerp(contourValue, localMinData, localMaxData);
+
                                             finalPoint = Mathf.Lerp(alpha, firstPoint, secondPoint);
 
                                             lineContour.AddPoint(finalPoint);
@@ -153,6 +167,11 @@ namespace Visualization.Utilities.Contouring
                                                 firstPoint = zone.Vertices[i].Position;
 
                                                 secondPoint = zone.Vertices[i + 1].Position;
+                                                localMinData = Math.Min(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                                localMaxData = Math.Max(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+
+                                                alpha = Mathf.Lerp(contourValue, localMinData, localMaxData);
+
                                                 finalPoint = Mathf.Lerp(alpha, firstPoint, secondPoint);
 
                                                 lineContour.AddPoint(finalPoint);
@@ -161,12 +180,20 @@ namespace Visualization.Utilities.Contouring
                                             firstPoint = zone.Vertices[3].Position;
                                             secondPoint = zone.Vertices[0].Position;
 
+                                            localMinData = Math.Min(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                            localMaxData = Math.Max(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                            alpha = Mathf.Lerp(contourValue, localMinData, localMaxData);
                                             finalPoint = Mathf.Lerp(alpha, firstPoint, secondPoint);
 
                                             lineContour.AddPoint(finalPoint);
 
                                             firstPoint = zone.Vertices[0].Position;
                                             secondPoint = zone.Vertices[1].Position;
+
+                                            localMinData = Math.Min(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                            localMaxData = Math.Max(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                            alpha = Mathf.Lerp(contourValue, localMinData, localMaxData);
+
                                             finalPoint = Mathf.Lerp(alpha, firstPoint, secondPoint);
 
                                             lineContour.AddPoint(finalPoint);
@@ -178,7 +205,9 @@ namespace Visualization.Utilities.Contouring
                                         Point3 firstPoint;
                                         Point3 secondPoint;
                                         Point3 finalPoint;
-                                        double alpha = Mathf.Lerp(contourValue, minOfData, maxOfData);
+                                        double alpha = 0;
+                                        double localMinData = 0;
+                                        double localMaxData = 0;
 
                                         double average = new[]
                                         {
@@ -189,7 +218,7 @@ namespace Visualization.Utilities.Contouring
                                         }.Average();
 
 
-                                        if (average < contourValue)
+                                        if (average > contourValue)
                                         {
                                             for (int i = 0; i < 3; i++)
                                             {
@@ -197,12 +226,19 @@ namespace Visualization.Utilities.Contouring
 
                                                 secondPoint = zone.Vertices[i + 1].Position;
                                                 finalPoint = Mathf.Lerp(alpha, firstPoint, secondPoint);
-
+                                                localMinData = Math.Min(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                                localMaxData = Math.Max(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                                alpha = Mathf.Lerp(contourValue, localMinData, localMaxData);
                                                 lineContour.AddPoint(finalPoint);
                                             }
 
                                             firstPoint = zone.Vertices[3].Position;
                                             secondPoint = zone.Vertices[0].Position;
+
+                                            localMinData = Math.Min(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                            localMaxData = Math.Max(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                            alpha = Mathf.Lerp(contourValue, localMinData, localMaxData);
+
                                             finalPoint = Mathf.Lerp(alpha, firstPoint, secondPoint);
 
                                             lineContour.AddPoint(finalPoint);
@@ -214,6 +250,9 @@ namespace Visualization.Utilities.Contouring
                                                 firstPoint = zone.Vertices[i].Position;
 
                                                 secondPoint = zone.Vertices[i + 1].Position;
+                                                localMinData = Math.Min(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                                localMaxData = Math.Max(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                                alpha = Mathf.Lerp(contourValue, localMinData, localMaxData);
                                                 finalPoint = Mathf.Lerp(alpha, firstPoint, secondPoint);
 
                                                 lineContour.AddPoint(finalPoint);
@@ -221,13 +260,18 @@ namespace Visualization.Utilities.Contouring
 
                                             firstPoint = zone.Vertices[3].Position;
                                             secondPoint = zone.Vertices[0].Position;
-
+                                            localMinData = Math.Min(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                            localMaxData = Math.Max(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                            alpha = Mathf.Lerp(contourValue, localMinData, localMaxData);
                                             finalPoint = Mathf.Lerp(alpha, firstPoint, secondPoint);
 
                                             lineContour.AddPoint(finalPoint);
 
                                             firstPoint = zone.Vertices[0].Position;
                                             secondPoint = zone.Vertices[1].Position;
+                                            localMinData = Math.Min(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                            localMaxData = Math.Max(firstPoint.Data[dataIndex], secondPoint.Data[dataIndex]);
+                                            alpha = Mathf.Lerp(contourValue, localMinData, localMaxData);
                                             finalPoint = Mathf.Lerp(alpha, firstPoint, secondPoint);
 
                                             lineContour.AddPoint(finalPoint);
@@ -239,7 +283,7 @@ namespace Visualization.Utilities.Contouring
                                         foreach (uint zoneFaceEdge in zoneFace.Edges)
                                         {
                                             Edge edge = zone.Edges[zoneFaceEdge];
-                                            edge.CalculateContour(zone, contourValue, dataIndex, ref lineContour);
+                                            edge.CalculateContour(zone, contourValue, dataIndex, minOfData, maxOfData, ref lineContour);
                                         }
                                     }
 

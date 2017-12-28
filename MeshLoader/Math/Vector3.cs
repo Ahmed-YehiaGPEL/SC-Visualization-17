@@ -1,5 +1,3 @@
-using System;
-
 namespace Visualization.MathUtil
 {
 	/// <summary>

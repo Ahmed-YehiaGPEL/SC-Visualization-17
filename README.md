@@ -4,6 +4,10 @@ Scientific Computing Visualization'17 Course Package Implementation
 
 This pacakge has been created as the work of Scientifc Computing - Visualization 2017 course implementation.
 
+## Snap Shot
+![SnapShot](_others/snap.png?raw=true "Title")
+<p align="center"> Model Example with IsoSurfaces</p>
+
 ## Installation
 
 All package dlls are included within the project setup **`PlugNPlayTM`**.

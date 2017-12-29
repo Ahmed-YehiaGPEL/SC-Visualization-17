@@ -40,12 +40,12 @@ It uses the following external frameworks:
 **3D Models:**
 
 * cavity54.dat
+* crank_noTitle.dat
 
 **2D Models:**
 
 * 2 Triangles.dat
 * big.dat **_Recommended for line contouring_**
-* crank_noTitle.dat
 * new.dat
 * Quad.dat
 

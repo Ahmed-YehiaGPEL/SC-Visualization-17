@@ -49,7 +49,7 @@ It uses the following external frameworks:
 * new.dat
 * Quad.dat
 
-## Closing
+## Contribution / Other
 
 Feel free to contribute either with issues reporting or forks and pull requests.
 
